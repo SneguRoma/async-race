@@ -1,5 +1,6 @@
 interface IPage {  
-    headerTitle: string;  
+    headerTitle: string
+    secHeader?: string  
 }
 
 export abstract class Page {
@@ -11,8 +12,8 @@ export abstract class Page {
     this.container.id = id;
   }
 
-  protected createTitle(text: string) {
-    const title = document.createElement('h2');
+  protected createTitle(tag: string, text: string) {
+    const title = document.createElement(tag);
     title.innerText = text;
     return title;
   }

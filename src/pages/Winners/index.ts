@@ -10,7 +10,7 @@ export class Winners extends Page {
   }
 
   render(): HTMLElement {
-    const title = this.createTitle(Winners.TextObj.headerTitle);
+    const title = this.createTitle('h2',Winners.TextObj.headerTitle);
     this.container.append(title);
     return this.container;
   }
