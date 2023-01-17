@@ -2,6 +2,7 @@ import { Garage } from "../Garage";
 import { Page } from "../../core/temlates/page";
 import { Winners } from "../Winners";
 import { Header } from "../../core/components/Header";
+import { getCars } from "../../API";
 
 export const enum PageIds {
   GaragePage = 'garage',
@@ -52,5 +53,11 @@ export class App {
     App.container.append(this.header.render());
     App.renderPage('garage');
     this.routeChange();
+    let rr
+    let fcars = getCars(1,2).then(r => {console.log (r.items[1]);return r;});
+    
+    
+    fcars.then(r => console.log(r.items))
+
   }
 }

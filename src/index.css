@@ -1,3 +1,14 @@
 body{
   background-color: rgb(237, 239, 223);
 }
+
+.car-road{
+  display: flex;
+  justify-content: space-between;
+}
+
+.line  {
+  border-top: 1px dashed #000; /* Параметры линии */
+  height: 18px; /* Высота блока */
+  
+ }

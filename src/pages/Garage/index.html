@@ -14,8 +14,21 @@
     <button class="button car-start-button"></button>
     <button class="button car-stop-button"></button>
   </div>
-  <div class="car">
-    
+  <div class="car-road">
+      <div class="car">
+       ${carImage}
+      </div>
+    <div class="finish">∏</div>
   </div>
-
+  
 </div>
+
+
+plugins: [
+    new CopyPlugin({
+      patterns: [
+        
+        /* { from: path.resolve(__dirname, 'dist'), to: path.resolve(__dirname, 'dist') }, */
+      ],
+    }),
+  ],
