@@ -1,4 +1,4 @@
-import { getCar, updateCars } from "../../API";
+import { delCar, getCar, updateCars } from "../../API";
 import { PageIds } from ".";
 import { createCar,updateCar } from "../../API";
 import { App } from ".";
@@ -8,6 +8,7 @@ const body: HTMLElement = document.body;
 let formData:FormData;
 let updateFormData:FormData;
 let selectedCar: ICar;
+let removedCar: ICar;
 
 
 export const createUpdate = () => {  
@@ -17,9 +18,7 @@ export const createUpdate = () => {
     const createInput = document.getElementById('create-form');
     if(createInput instanceof HTMLFormElement) { formData = new FormData(createInput);}
     const name = formData.get('name');
-    const color = formData.get('color');
-
-    
+    const color = formData.get('color');    
 
     if(event.target instanceof Element){      
       if (event.target.classList.contains('create-form')) {        
@@ -31,6 +30,7 @@ export const createUpdate = () => {
           App.renderPage(PageIds.GaragePage, true);})      
       }
     }
+
     const updateInput = document.getElementById('update-form');
     if(updateInput instanceof HTMLFormElement) { updateFormData = new FormData(updateInput);}
     const updateName = updateFormData.get('name');
@@ -50,7 +50,6 @@ export const createUpdate = () => {
 }; 
 
 export const selectRemove = () => {  
-  //console.log('createInput',formData)
   body.addEventListener('click', async (event: Event) => {
     if(event.target instanceof Element){      
       if (event.target.classList.contains('select-car-button')) { 
@@ -73,41 +72,14 @@ export const selectRemove = () => {
         }        
         console.log(event.target.id, selectedCar) 
       }
+
+      if (event.target.classList.contains("remove-car-button")) {             
+        removedCar = await getCar((+event.target.id)/2);
+        await delCar(removedCar.id);
+        updateCars();
+        App.renderPage(PageIds.GaragePage, true);         
+      }
     }     
   });
 };   
 
-
-
-
-
-
-
-  /* selectedCar = await getCar(event.target.id).then(() => updateCars())
-    .then(() => {App.renderPage(PageIds.GaragePage, true);})      
-  } */
-
-
-  //const buttonCreate = document.getElementById('create');
-  //if (buttonCreate){
-  //  buttonCreate.addEventListener('click', async() =>{ await createCar({
-   // name: 'string',
-  //  color: '#0213000'  
-//  }).then(() => {
-//    updateCars().then(() => {
-    //  document.querySelector(`#${App.defaultPageId}`)?.remove()
-
-
-    //  page = new Garage(PageIds.GaragePage);
-   //   const pageHtml = page.render();
-  //  pageHtml.id = App.defaultPageId;
-   // App.container.append(pageHtml); 
-    
-    //page?.render();
-    
-  //    App.renderPage(PageIds.GaragePage, true);
-    //this.run()
- //   })
-//});
-//  }) 
- // }

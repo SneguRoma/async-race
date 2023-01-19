@@ -6,7 +6,7 @@ export const inputBlock = (doWhat: string, disabled = false) => `
 <div>
   <form id="${doWhat}-form" class="${doWhat}-form">
     <input id="${doWhat}-input" type="text" class="${doWhat}-text ${doWhat}-input" name="name" ${(disabled)? "disabled" : ''}>
-    <input id="${doWhat}-color" type="color" class="button ${doWhat}-color" value="#e66465" name="color" ${(disabled)? "disabled" : ''}>
+    <input id="${doWhat}-color" type="color" class="button ${doWhat}-color" value="#000000" name="color" ${(disabled)? "disabled" : ''}>
     <button id="${doWhat}-button" type="submit" class="button ${doWhat}-button" ${(disabled)? "disabled" : ''}>${doWhat}</button> 
   </form>
 </div>
@@ -131,9 +131,9 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z"/>
 const carImg2 = carImage2('#000000');
 
 export const lineContainer = (color: string, name: string, id: number) => `
-<div class="car-container">
+<div class="car-container" >
   <button class="button select-car-button" id=${id}>select</button>
-  <button class="button remove-car-button">remove</button> 
+  <button class="button remove-car-button" id=${id *2}>remove</button> 
   <span>${name}</span> 
 </div>
 <div class="race-line-container">
