@@ -2,12 +2,15 @@ import { Garage } from "../Garage";
 import { Page } from "../../core/temlates/page";
 import { Winners } from "../Winners";
 import { Header } from "../../core/components/Header";
-import { getCars } from "../../API";
+import { getCars,createCar, cars, updateCars } from "../../API";
+import { createUpdate, selectRemove } from "./functions";
 
 export const enum PageIds {
   GaragePage = 'garage',
   WinnersPage = 'winners'
 }
+let page: Page | null = null;
+
 
 export class App {
   private static container: HTMLElement = document.body;
@@ -15,18 +18,22 @@ export class App {
   private initialPage: Garage;
   private header: Header;
 
+  
   constructor() {    
     this.initialPage = new Garage('garage');
     this.header = new Header('header', 'header');
   }
 
-  static renderPage(id: string) {
+  static renderPage(id: string, rend = false) {    
     const currentPageHtml = document.querySelector(`#${App.defaultPageId}`);
+    
     if(currentPageHtml) {
       currentPageHtml.remove();
     }
     /* App.container.innerHTML = ''; */
-    let page: Page | null = null; 
+    if(currentPageHtml && rend === true) {
+      currentPageHtml.remove();
+    }
 
     if(id === PageIds.GaragePage) {
       page = new Garage(id);
@@ -40,6 +47,7 @@ export class App {
       pageHtml.id = App.defaultPageId;
       App.container.append(pageHtml);
     }
+    
   }
 
   private routeChange() {
@@ -49,15 +57,19 @@ export class App {
     });
   }
 
+  
+
   run(){
     App.container.append(this.header.render());
     App.renderPage('garage');
     this.routeChange();
-    let rr
-    let fcars = getCars(1,2).then(r => {console.log (r.items[1]);return r;});
+    createUpdate();
+    selectRemove();
+
     
-    
-    fcars.then(r => console.log(r.items))
+  
+   
+       
 
   }
 }

@@ -1,8 +1,14 @@
-export const inputBlock = (doWhat: string) => `
+import { getCars } from "../../API";
+
+let search: string;
+
+export const inputBlock = (doWhat: string, disabled = false) => `
 <div>
-  <input type="text" class="input-text ${doWhat}-input">
-  <button class="button ${doWhat}-color">choose color</button>
-  <button class="button ${doWhat}-button">${doWhat}</button>  
+  <form id="${doWhat}-form" class="${doWhat}-form">
+    <input id="${doWhat}-input" type="text" class="${doWhat}-text ${doWhat}-input" name="name" ${(disabled)? "disabled" : ''}>
+    <input id="${doWhat}-color" type="color" class="button ${doWhat}-color" value="#e66465" name="color" ${(disabled)? "disabled" : ''}>
+    <button id="${doWhat}-button" type="submit" class="button ${doWhat}-button" ${(disabled)? "disabled" : ''}>${doWhat}</button> 
+  </form>
 </div>
 `;
 
@@ -124,11 +130,11 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z"/>
 
 const carImg2 = carImage2('#000000');
 
-export const lineContainer = (color: string) => `
+export const lineContainer = (color: string, name: string, id: number) => `
 <div class="car-container">
-  <button class="button select-car-button">select</button>
+  <button class="button select-car-button" id=${id}>select</button>
   <button class="button remove-car-button">remove</button> 
-  <span>name tachki</span> 
+  <span>${name}</span> 
 </div>
 <div class="race-line-container">
   <div class="race-control">
@@ -144,3 +150,4 @@ export const lineContainer = (color: string) => `
   <div class="line"></div>
 </div>
 `
+

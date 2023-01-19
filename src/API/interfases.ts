@@ -3,3 +3,9 @@ export interface ICar{
   "color": string,
   "id": number
 }
+
+export interface ICarWithOutId{
+  "name": string,
+  "color": string,
+  
+}
