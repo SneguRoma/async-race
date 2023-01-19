@@ -3,7 +3,7 @@ import { Page } from "../../core/temlates/page";
 import { Winners } from "../Winners";
 import { Header } from "../../core/components/Header";
 import { getCars,createCar, cars, updateCars } from "../../API";
-import { createUpdate, selectRemove } from "./functions";
+import { createUpdate, selectRemove, pagination } from "./functions";
 
 export const enum PageIds {
   GaragePage = 'garage',
@@ -65,6 +65,7 @@ export class App {
     this.routeChange();
     createUpdate();
     selectRemove();
+    pagination()
 
     
   

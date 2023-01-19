@@ -20,6 +20,13 @@ export const buttonsBlock = (doWhatFirst: string, doWhatSec: string, doWhatThree
 </div>
 `;
 
+export const buttonsBlockTwo = (doWhatFirst: string, doWhatSec: string) => `
+<div>  
+  <button class="button ${doWhatFirst}-button">${doWhatFirst}</button>
+  <button class="button ${doWhatSec}-button">${doWhatSec}</button>    
+</div>
+`;
+
 export const carImage = () => `
 <svg fill="#000000" height="50px" width="50px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 460.384 460.384" xml:space="preserve">
 <g id="SVGRepo_bgCarrier" stroke-width="0" />

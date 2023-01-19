@@ -25,7 +25,7 @@ export const createUpdate = () => {
       await createCar({
         name: (name) ? name?.toString() : '',
         color: (color) ? color?.toString() : '#000000'
-      }).then(() => updateCars())
+      }).then(() => updateCars(0))
         .then(() => {console.log('createInput', color)
           App.renderPage(PageIds.GaragePage, true);})      
       }
@@ -42,7 +42,7 @@ export const createUpdate = () => {
         name: (updateName) ? updateName ?.toString() : '',
         color: (updateColor) ? updateColor?.toString() : '#000000',
         id: selectedCar.id  
-      }).then(() => updateCars())
+      }).then(() => updateCars(0))
         .then(() => {App.renderPage(PageIds.GaragePage, true);})      
       }
     }    
@@ -76,10 +76,29 @@ export const selectRemove = () => {
       if (event.target.classList.contains("remove-car-button")) {             
         removedCar = await getCar((+event.target.id)/2);
         await delCar(removedCar.id);
-        updateCars();
+        updateCars(0);
         App.renderPage(PageIds.GaragePage, true);         
       }
     }     
   });
-};   
+};  
 
+export const pagination = () => {  
+  //console.log('createInput',formData)
+  body.addEventListener('click', async (event: Event) => {    
+
+    if(event.target instanceof Element){     
+      if (event.target.classList.contains('prev-button')) {        
+        updateCars(-1);
+        App.renderPage(PageIds.GaragePage, true);}     
+      }
+    
+    if(event.target instanceof Element){     
+      if (event.target.classList.contains('next-button')) {        
+        updateCars(1);
+        App.renderPage(PageIds.GaragePage, true);}     
+      }
+    });
+
+      
+  }

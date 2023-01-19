@@ -48,11 +48,17 @@ export const delCar = async (id:number) => {
   const resp = await fetch(`${garage}/${id}`,{method: 'DELETE' });
   return await resp.json(); 
 }
-export let cars = getCars(1);
+export let page = 1;
+export let cars = getCars(page);
 
-export async function updateCars() {
-  cars =  getCars(1, 100);
+export async function updateCars(dir: number) {
+  page += dir;
+  if(page < 1 ) page = 1;
+ cars = getCars(page)
+  .then(r =>{if(r.count) page = ((+r.count / 7) < page -1) ? page-1 : page;})
+  .then(() =>getCars(page));
 }
+ 
 //let fcars = getCars(1).then(r => console.log (r));
 
 
