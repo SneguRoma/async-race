@@ -1,8 +1,9 @@
 import { delCar, getCar, updateCars } from "../../API";
 import { PageIds } from ".";
-import { createCar,updateCar } from "../../API";
+import { createCar,updateCar, updateWinners } from "../../API";
 import { App } from ".";
 import { ICar } from "../../API/interfases";
+import { generateHundreedCars } from "../../ui";
 
 const body: HTMLElement = document.body;
 let formData:FormData;
@@ -92,13 +93,35 @@ export const pagination = () => {
         updateCars(-1);
         App.renderPage(PageIds.GaragePage, true);}     
       }
+    if(event.target instanceof Element){     
+        if (event.target.classList.contains('next-button')) {        
+          updateCars(1);
+          App.renderPage(PageIds.GaragePage, true);}     
+        }
     
     if(event.target instanceof Element){     
-      if (event.target.classList.contains('next-button')) {        
-        updateCars(1);
-        App.renderPage(PageIds.GaragePage, true);}     
+      if (event.target.classList.contains('nextWin-button')) {
+        console.log('next')        
+        updateWinners(1,'wins', 'ASC');
+        App.renderPage(PageIds.WinnersPage, true);}     
       }
-    });
-
+    if(event.target instanceof Element){     
+      if (event.target.classList.contains('prevWin-button')) { 
+        console.log('prev')       
+        updateWinners(-1,'wins', 'ASC');
+        App.renderPage(PageIds.WinnersPage, true);}     
+      }    
       
+      
+      
+      if(event.target instanceof Element){     
+        if (event.target.classList.contains('generate-cars-button')) { 
+          await generateHundreedCars();       
+          await updateCars(0);
+          App.renderPage(PageIds.GaragePage, true);}     
+        }    
+    });      
   }
+
+  
+  

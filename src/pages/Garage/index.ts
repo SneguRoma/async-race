@@ -22,12 +22,6 @@ export class Garage extends Page {
     super(id);    
   }  
 
-  remove(){    
-    this.container.remove();
-    this.container = document.createElement('div');   
-  }
-
-
   render(): HTMLElement {
     
     //const title = this.createTitle('h2',Garage.TextObj.headerTitle);

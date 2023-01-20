@@ -6,6 +6,31 @@ export interface ICar{
 
 export interface ICarWithOutId{
   "name": string,
-  "color": string,
-  
+  "color": string,  
 }
+export interface IWin
+{
+  "id": number,
+  "wins": number,
+  "time": number
+}
+
+export interface IWinWithoutId
+{  
+  "wins": number,
+  "time": number
+}
+
+export interface IWinners
+  {
+    car: ICar;
+    id: number;
+    wins: number;
+    time: number;
+}
+
+export interface ISaveWin{
+  id: number,
+  time: number
+}
+

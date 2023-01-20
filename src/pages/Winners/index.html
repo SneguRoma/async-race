@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <th>Number</th>
+    <th>Number</th>
+    <th>Number</th>
+    <th class="wins">Wins</th>
+    <th class="time">Time</th>    
+  </thead>
+  <tbody>
+    ${winners.map((car,id) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${carImage2(car.car.color)}</td>
+        <td>${car.car.name}</td>
+        <td>${car.wins}</td>
+        <td>${cat.time}</td>
+      </tr>
+    `).join('')}
+  </tbody>
+</table>

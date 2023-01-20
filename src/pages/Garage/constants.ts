@@ -1,4 +1,6 @@
 import { getCars } from "../../API";
+import { winnersCount } from "../../API";
+import { IWinners } from "../../API/interfases";
 
 let search: string;
 
@@ -157,4 +159,24 @@ export const lineContainer = (color: string, name: string, id: number) => `
   <div class="line"></div>
 </div>
 `
-
+export const tableOfWin = (winners: IWinners[]) =>
+`<table class="table">
+  <thead>
+    <th>Number</th>
+    <th>Number</th>
+    <th>Number</th>
+    <th class="wins">Wins</th>
+    <th class="time">Time</th>    
+  </thead>
+  <tbody>
+    ${winners.map((car,id) => `
+      <tr>
+        <td>${id + 1}</td>
+        <td>${carImage2(car.car.color)}</td>
+        <td>${car.car.name}</td>
+        <td>${car.wins}</td>
+        <td>${car.time}</td>
+      </tr>
+    `).join('')}
+  </tbody>
+</table>`
