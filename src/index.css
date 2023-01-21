@@ -12,3 +12,8 @@ body{
   height: 18px; /* Высота блока */
   
  }
+
+ .car{
+  position: relative;
+  left: 15px;
+ }

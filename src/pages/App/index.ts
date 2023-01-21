@@ -2,8 +2,8 @@ import { Garage } from "../Garage";
 import { Page } from "../../core/temlates/page";
 import { Winners } from "../Winners";
 import { Header } from "../../core/components/Header";
-import { getCars,createCar, cars, updateCars, drive } from "../../API";
-import { createUpdate, selectRemove, pagination } from "./functions";
+import { getCars,createCar, cars, updateCars, drive, startEng, stopEng } from "../../API";
+import { createUpdate, selectRemove, pagination, animationCar } from "./functions";
 
 
 export const enum PageIds {
@@ -67,10 +67,13 @@ export class App {
     this.routeChange();
     createUpdate();
     selectRemove();
-    pagination()
-
+    pagination();
+    //animationCar();
     
-    //drive(6).then((r)=> console.log(r));
+    
+    
+   // startEng(2).then(r => console.log(r))
+   // drive(5).then((r) => console.log(r));
   
    
        

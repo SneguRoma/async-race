@@ -1,8 +1,8 @@
-import { delCar, getCar, updateCars } from "../../API";
+import { cars, delCar, getCar, startEng, stopEng, updateCars } from "../../API";
 import { PageIds } from ".";
 import { createCar,updateCar, updateWinners } from "../../API";
 import { App } from ".";
-import { ICar } from "../../API/interfases";
+import { ICar, ICartartStop } from "../../API/interfases";
 import { generateHundreedCars } from "../../ui";
 
 const body: HTMLElement = document.body;
@@ -10,6 +10,10 @@ let formData:FormData;
 let updateFormData:FormData;
 let selectedCar: ICar;
 let removedCar: ICar;
+let startedCar: ICartartStop
+let stoppedCar: ICartartStop
+let globalState:{id: number}[] = [];
+
 
 
 export const createUpdate = () => {  
@@ -75,10 +79,22 @@ export const selectRemove = () => {
       }
 
       if (event.target.classList.contains("remove-car-button")) {             
-        removedCar = await getCar((+event.target.id)/2);
+        removedCar = await getCar((+event.target.id)/1000);
         await delCar(removedCar.id);
         updateCars(0);
         App.renderPage(PageIds.GaragePage, true);         
+      }
+
+      if (event.target.classList.contains("car-start-button")) {             
+        startedCar = await startEng((parseInt(event.target.id)));
+        console.log('startedCar',startedCar.distance)
+        globalState[(parseInt(event.target.id))] = animationCar(parseInt(event.target.id),startedCar.velocity,startedCar.distance);
+      }
+
+      if (event.target.classList.contains("car-stop-button")) {             
+        stoppedCar = await stopEng((parseInt(event.target.id)));
+        console.log('stoppedCar',stoppedCar)
+        cancelAnimationFrame(globalState[(parseInt(event.target.id))].id);
       }
     }     
   });
@@ -100,19 +116,15 @@ export const pagination = () => {
         }
     
     if(event.target instanceof Element){     
-      if (event.target.classList.contains('nextWin-button')) {
-        console.log('next')        
+      if (event.target.classList.contains('nextWin-button')) {              
         updateWinners(1,'wins', 'ASC');
         App.renderPage(PageIds.WinnersPage, true);}     
       }
     if(event.target instanceof Element){     
-      if (event.target.classList.contains('prevWin-button')) { 
-        console.log('prev')       
+      if (event.target.classList.contains('prevWin-button')) {         
         updateWinners(-1,'wins', 'ASC');
         App.renderPage(PageIds.WinnersPage, true);}     
-      }    
-      
-      
+      }      
       
       if(event.target instanceof Element){     
         if (event.target.classList.contains('generate-cars-button')) { 
@@ -122,6 +134,23 @@ export const pagination = () => {
         }    
     });      
   }
-
   
+  export const animationCar = (id:number,velo: number, dist: number) => {    
+    const state: {id: number}= {id: 0};
+    var stepLeft = 15;
+    var el = document.getElementById(`${id}-car`);                
+    function move() {        
+        let currDist = document.body.clientWidth-70;
+        let timeForDist = dist / velo;
+        let pixForSec = currDist / timeForDist;
+        console.log('timeForDist',timeForDist, 'currDist', currDist, 'pixForSec', pixForSec )
+        stepLeft += pixForSec*30;
+        if(el) el.style.left = stepLeft + "px";
+        if (stepLeft < currDist)          
+        state.id = window.requestAnimationFrame(move);
+    }
+    state.id = window.requestAnimationFrame(move);
+    console.log('state', state)
+    return state;
+   } 
   

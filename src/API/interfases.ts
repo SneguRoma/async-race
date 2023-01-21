@@ -34,3 +34,7 @@ export interface ISaveWin{
   time: number
 }
 
+export interface ICartartStop{  
+    "velocity": number,
+    "distance": number  
+}

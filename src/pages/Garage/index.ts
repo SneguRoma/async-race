@@ -2,6 +2,7 @@ import { Page } from "../../core/temlates/page";
 import { inputBlock, buttonsBlock, lineContainer, buttonsBlockTwo } from "./constants";
 import { getCars, createCar } from "../../API";
 import { cars, page } from "../../API";
+import { animationCar } from "../App/functions";
 
 const createCarBlock = inputBlock('create', false);
 const modifyCar = inputBlock('update',true);
@@ -39,6 +40,9 @@ export class Garage extends Page {
     this.container.insertAdjacentHTML("beforeend", buttonsPaginations);
     /* const buttonCreate = document.getElementById('create');
     console.log(buttonCreate) */
+    //cars.then(() => animationCar())
+    //var el = document.getElementById("2-car");
+    //console.log('el', el)     
     return this.container;
   }
 }/* console.log(item.color) */

@@ -68,9 +68,9 @@ export async function updateCars(dir: number) {
 
 
 
-export const start = async (id: number) => (await fetch(`${engine}?id=${id}&status=started`)).json();
+export const startEng = async (id: number) => (await fetch(`${engine}?id=${id}&status=started`,{method: 'PATCH'})).json(); 
 
-export const stop = async (id: number) => (await fetch(`${engine}?id=${id}&status=stopped`)).json();
+export const stopEng = async (id: number) => (await fetch(`${engine}?id=${id}&status=stopped`,{method: 'PATCH'})).json();
  
 export const drive = async (id: number) => {
   const resp = await fetch(`${engine}?id=${id}&status=drive`).catch()
