@@ -154,8 +154,8 @@ export const tableOfWin = (winners: IWinners[]) =>
 `<table class="table">
   <thead>
     <th>Number</th>
-    <th>Number</th>
-    <th>Number</th>
+    <th>Car</th>
+    <th>Name</th>
     <th class="wins">Wins</th>
     <th class="time">Time</th>    
   </thead>

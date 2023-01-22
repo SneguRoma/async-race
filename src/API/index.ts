@@ -73,7 +73,7 @@ export const startEng = async (id: number) => (await fetch(`${engine}?id=${id}&s
 export const stopEng = async (id: number) => (await fetch(`${engine}?id=${id}&status=stopped`,{method: 'PATCH'})).json();
  
 export const drive = async (id: number) => {
-  const resp = await fetch(`${engine}?id=${id}&status=drive`).catch()
+  const resp = await fetch(`${engine}?id=${id}&status=drive`,{method: 'PATCH'}).catch()
   console.log('status',resp.status)
   return (resp.status!=200) ? {succsess: false} : {...(await resp.json())}
 } 

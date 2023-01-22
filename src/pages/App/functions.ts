@@ -1,4 +1,4 @@
-import { cars, delCar, getCar, startEng, stopEng, updateCars } from "../../API";
+import { cars, delCar, drive, getCar, startEng, stopEng, updateCars } from "../../API";
 import { PageIds } from ".";
 import { createCar,updateCar, updateWinners } from "../../API";
 import { App } from ".";
@@ -85,17 +85,52 @@ export const selectRemove = () => {
         App.renderPage(PageIds.GaragePage, true);         
       }
 
-      if (event.target.classList.contains("car-start-button")) {             
-        startedCar = await startEng((parseInt(event.target.id)));
+      if (event.target.classList.contains("car-start-button")) { 
+        const id = parseInt(event.target.id);          
+        startedCar = await startEng(id);
         console.log('startedCar',startedCar.distance)
-        globalState[(parseInt(event.target.id))] = animationCar(parseInt(event.target.id),startedCar.velocity,startedCar.distance);
+        globalState[id] = animationCar(id,startedCar.velocity,startedCar.distance);           
+        await drive(id).then(r => {          
+         if (r.succsess === false ) {
+          cancelAnimationFrame(globalState[id].id) 
+         } 
+        });
+      } 
+      
+      if (event.target.classList.contains("race-button")) { 
+        const carsForRace = await cars;
+        console.log('carsForRace',carsForRace.items)
+        carsForRace.items.forEach(async (r) => {
+          startedCar = await startEng(r.id);          
+          globalState[r.id] = animationCar(r.id,startedCar.velocity,startedCar.distance);
+          await drive(r.id).then(item => {          
+            if (item.succsess === false ) {
+             cancelAnimationFrame(globalState[r.id].id) 
+            } 
+           });
+        });       
       }
 
-      if (event.target.classList.contains("car-stop-button")) {             
-        stoppedCar = await stopEng((parseInt(event.target.id)));
+      if (event.target.classList.contains("car-stop-button")) { 
+        const id = parseInt(event.target.id);           
+        stoppedCar = await stopEng(id);
         console.log('stoppedCar',stoppedCar)
-        cancelAnimationFrame(globalState[(parseInt(event.target.id))].id);
+        cancelAnimationFrame(globalState[id].id);
+        const el = document.getElementById(`${id}-car`);
+        if(el) el.style.left = '15px'
       }
+
+      if (event.target.classList.contains("reset-button")) { 
+        const carsForRace = await cars;
+        console.log('carsForRace',carsForRace.items)
+        carsForRace.items.forEach(async (r) => {
+          stoppedCar = await stopEng(r.id);
+          cancelAnimationFrame(globalState[r.id].id);
+          const el = document.getElementById(`${r.id}-car`);
+          if(el) el.style.left = '15px'
+        });       
+      }
+      
     }     
   });
 };  
@@ -137,20 +172,19 @@ export const pagination = () => {
   
   export const animationCar = (id:number,velo: number, dist: number) => {    
     const state: {id: number}= {id: 0};
-    var stepLeft = 15;
-    var el = document.getElementById(`${id}-car`);                
+    let stepLeft = 15;
+    const el = document.getElementById(`${id}-car`);
     function move() {        
         let currDist = document.body.clientWidth-70;
         let timeForDist = dist / velo;
         let pixForSec = currDist / timeForDist;
-        console.log('timeForDist',timeForDist, 'currDist', currDist, 'pixForSec', pixForSec )
+        //console.log('timeForDist',timeForDist, 'currDist', currDist, 'pixForSec', pixForSec )
         stepLeft += pixForSec*30;
         if(el) el.style.left = stepLeft + "px";
         if (stepLeft < currDist)          
         state.id = window.requestAnimationFrame(move);
     }
-    state.id = window.requestAnimationFrame(move);
-    console.log('state', state)
+    state.id = window.requestAnimationFrame(move);    
     return state;
    } 
   
