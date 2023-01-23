@@ -17,3 +17,15 @@ body{
   position: relative;
   left: 15px;
  }
+
+ .header{
+  position: relative;
+ }
+
+ .winner-message{
+  position: absolute;
+  font-size: 40px;
+  top: 50vh;
+  left: 50vw;
+  z-index: 10;
+ }

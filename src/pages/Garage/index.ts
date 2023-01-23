@@ -10,6 +10,7 @@ const buttonsRace = buttonsBlock('race', 'reset','generate-cars');
 const buttonsPaginations = buttonsBlockTwo('prev', 'next');
 //const cars = getCars(1);
 const inputCreate = document.getElementsByClassName('create-text');
+const message  =  document.getElementsByClassName('winner-message');
 
 
 
@@ -24,7 +25,7 @@ export class Garage extends Page {
   }  
 
   render(): HTMLElement {
-    
+    message[0].textContent = '';
     //const title = this.createTitle('h2',Garage.TextObj.headerTitle);
     cars.then(r => this.container.append(this.createTitle('h2',Garage.TextObj.headerTitle + r.count)));
     cars.then(r => this.container.append(this.createTitle('h3',Garage.TextObj.secHeader + page )));

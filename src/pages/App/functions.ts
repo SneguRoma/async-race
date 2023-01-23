@@ -1,4 +1,4 @@
-import { cars, delCar, drive, getCar, startEng, stopEng, updateCars } from "../../API";
+import { cars, delCar, delWinner, drive, getCar, saveWinner, startEng, stopEng, updateCars } from "../../API";
 import { PageIds } from ".";
 import { createCar,updateCar, updateWinners } from "../../API";
 import { App } from ".";
@@ -12,7 +12,10 @@ let selectedCar: ICar;
 let removedCar: ICar;
 let startedCar: ICartartStop
 let stoppedCar: ICartartStop
-let globalState:{id: number}[] = [];
+let globalState:{
+  id: number,
+  time: number}[] = [];
+const message  =  document.getElementsByClassName('winner-message');
 
 
 
@@ -82,7 +85,9 @@ export const selectRemove = () => {
         removedCar = await getCar((+event.target.id)/1000);
         await delCar(removedCar.id);
         updateCars(0);
-        App.renderPage(PageIds.GaragePage, true);         
+        App.renderPage(PageIds.GaragePage, true);
+        delWinner((+event.target.id)/1000);
+        updateWinners(0,'wins', 'ASC');        
       }
 
       if (event.target.classList.contains("car-start-button")) { 
@@ -97,7 +102,9 @@ export const selectRemove = () => {
         });
       } 
       
-      if (event.target.classList.contains("race-button")) { 
+      if (event.target.classList.contains("race-button")) {
+        globalState = [];
+        message[0].textContent = ' ';
         const carsForRace = await cars;
         console.log('carsForRace',carsForRace.items)
         carsForRace.items.forEach(async (r) => {
@@ -107,8 +114,9 @@ export const selectRemove = () => {
             if (item.succsess === false ) {
              cancelAnimationFrame(globalState[r.id].id) 
             } 
-           });
-        });       
+           });           
+        });        
+         
       }
 
       if (event.target.classList.contains("car-stop-button")) { 
@@ -128,7 +136,8 @@ export const selectRemove = () => {
           cancelAnimationFrame(globalState[r.id].id);
           const el = document.getElementById(`${r.id}-car`);
           if(el) el.style.left = '15px'
-        });       
+        });
+        message[0].textContent = '';       
       }
       
     }     
@@ -171,9 +180,10 @@ export const pagination = () => {
   }
   
   export const animationCar = (id:number,velo: number, dist: number) => {    
-    const state: {id: number}= {id: 0};
+    const state: {id: number, time: number}= {id: 0, time: 0};
     let stepLeft = 15;
     const el = document.getElementById(`${id}-car`);
+    state.time = dist / velo;  
     function move() {        
         let currDist = document.body.clientWidth-70;
         let timeForDist = dist / velo;
@@ -183,8 +193,15 @@ export const pagination = () => {
         if(el) el.style.left = stepLeft + "px";
         if (stepLeft < currDist)          
         state.id = window.requestAnimationFrame(move);
+        if(stepLeft >= currDist && message[0].textContent === ' '){
+          message[0].textContent = `n ${id} win ${(timeForDist/1000).toFixed(2)}`;
+          let time = +(timeForDist/1000).toFixed(2)
+          saveWinner({id, time}).then(()=> updateWinners(0,'wins', 'ASC'));          
+        }
+        
     }
-    state.id = window.requestAnimationFrame(move);    
+    state.id = window.requestAnimationFrame(move); 
+    
     return state;
    } 
   

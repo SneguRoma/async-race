@@ -28,6 +28,8 @@ export class Header extends Component{
 
   renderPage(){
     const pageButtons = document.createElement('div');
+    const winner = document.createElement('div');
+    winner.classList.add('winner-message')
     buttons.forEach(element => {
       const buttoHtml= document.createElement('button');
       const buttonLink = document.createElement('a');
@@ -38,6 +40,7 @@ export class Header extends Component{
     });
     this.container.append(nameOfApp);
     this.container.append(pageButtons);
+    this.container.append(winner);
   }
 
   render() {
