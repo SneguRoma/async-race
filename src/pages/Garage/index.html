@@ -1,0 +1,42 @@
+<div>
+  <input type="text" class="create-text">
+  <button class="enter-color"></button>
+  <button class="create-button"></button>  
+</div>
+
+<div>
+  <form  class="form" class="create-form">
+    <input id="${doWhat}-input" type="text"  class="${doWhat}-text ${doWhat}-input">
+    <button class="button ${doWhat}-color">choose color</button>
+    <button id="${doWhat}" class="button ${doWhat}-button"  >${doWhat}</button> 
+  </form>
+</div>
+
+<div class="car-container">
+  <button class="button select-car-button"></button>
+  <button class="button remove-car-button"></button> 
+  <span>name tachki</span> 
+</div>
+<div class="race-line-container">
+  <div class="race-control">
+    <button class="button car-start-button"></button>
+    <button class="button car-stop-button"></button>
+  </div>
+  <div class="car-road">
+      <div class="car">
+       ${carImage}
+      </div>
+    <div class="finish">∏</div>
+  </div>
+  
+</div>
+
+
+plugins: [
+    new CopyPlugin({
+      patterns: [
+        
+        /* { from: path.resolve(__dirname, 'dist'), to: path.resolve(__dirname, 'dist') }, */
+      ],
+    }),
+  ],

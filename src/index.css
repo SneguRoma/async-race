@@ -1,0 +1,55 @@
+body{
+  background-color: rgb(237, 239, 223);
+}
+
+a{
+  text-decoration: none;
+}
+
+
+.button{
+  border-radius: 5px;
+  margin: 5px,2px;
+  
+}
+
+.car-road{
+  display: flex;
+  justify-content: space-between;
+}
+
+.line  {
+  border-top: 1px dashed #000; /* Параметры линии */
+  height: 5px; /* Высота блока */
+  
+ }
+
+ .car{
+  position: relative;
+  left: 15px;
+ }
+
+ .header{
+  position: relative;
+  margin-left: 20px;
+ }
+
+ #current-page{
+  margin-left: 20px;
+ }
+
+ .winner-message{
+  position: absolute;
+  font-size: 30px;
+  top: 20vh;
+  left: 45vw;
+  z-index: 10;
+ }
+
+ .time:hover, .wins:hover{
+  cursor: pointer;
+ }
+
+ .finish{
+  margin-right: 15px;
+ }
