@@ -119,7 +119,7 @@ export const getWinners: (page: number, limit: number, sort: string, order: stri
   items: IWinners[]
   count: string | null;
 }> = async (page:number, limit = 10, sort:string , order: string) =>{
-  const resp = await fetch(`${winners}?_page=${page}&_limit=${limit}${getSort}`);
+  const resp = await fetch(`${winners}?_page=${page}&_limit=${limit}${getSort(sort,order)}`);
   const items: IWin[] = await resp.json(); 
   //console.log('resp', resp.headers.get('X-Total-Count'))
   return {

@@ -139,7 +139,7 @@ export const lineContainer = (color: string, name: string, id: number) => `
 <div class="race-line-container">
   <div class="race-control">
     <button id="${id}-start" class="button car-start-button">start</button>
-    <button id="${id}-stop" class="button car-stop-button">stop</button>
+    <button id="${id}-stop" class="button car-stop-button" disabled>stop</button>
   </div>
   <div class="car-road">
       <div class="car">

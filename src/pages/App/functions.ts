@@ -16,11 +16,11 @@ let globalState:{
   id: number,
   time: number}[] = [];
 const message  =  document.getElementsByClassName('winner-message');
+let order = 'ASC';
 
-
+let sort = 'wins';
 
 export const createUpdate = () => {  
-  //console.log('createInput',formData)
   body.addEventListener('submit', async (event: Event) => {
     event.preventDefault();
     const createInput = document.getElementById('create-form');
@@ -90,42 +90,54 @@ export const selectRemove = () => {
         updateWinners(0,'wins', 'ASC');        
       }
 
-      if (event.target.classList.contains("car-start-button")) { 
-        const id = parseInt(event.target.id);          
-        startedCar = await startEng(id);
-        console.log('startedCar',startedCar.distance)
-        globalState[id] = animationCar(id,startedCar.velocity,startedCar.distance);           
+      if (event.target.classList.contains("car-start-button")) {
+        const id = parseInt(event.target.id);
+        const startButt = document.getElementById(`${id}-start`);
+        const stopButt = document.getElementById(`${id}-stop`);        
+        if (startButt instanceof HTMLButtonElement && startButt) {
+          startButt.disabled = true;
+        }
+        if (stopButt instanceof HTMLButtonElement && stopButt) {          
+          stopButt.disabled = false;
+        }
+        startedCar = await startEng(id);        
         await drive(id).then(r => {          
          if (r.succsess === false ) {
-          cancelAnimationFrame(globalState[id].id) 
+          cancelAnimationFrame(globalState[id].id);          
          } 
-        });
+        });       
       } 
       
       if (event.target.classList.contains("race-button")) {
         globalState = [];
         message[0].textContent = ' ';
-        const carsForRace = await cars;
-        console.log('carsForRace',carsForRace.items)
+        const carsForRace = await cars;        
         carsForRace.items.forEach(async (r) => {
-          startedCar = await startEng(r.id);          
-          globalState[r.id] = animationCar(r.id,startedCar.velocity,startedCar.distance);
+          startedCar = await startEng(r.id);
+          const carName= await getCar(r.id);        
+          globalState[r.id] = animationCar(r.id,startedCar.velocity,startedCar.distance, carName.name);
           await drive(r.id).then(item => {          
             if (item.succsess === false ) {
              cancelAnimationFrame(globalState[r.id].id) 
             } 
            });           
-        });        
-         
+        });         
       }
 
       if (event.target.classList.contains("car-stop-button")) { 
-        const id = parseInt(event.target.id);           
-        stoppedCar = await stopEng(id);
-        console.log('stoppedCar',stoppedCar)
+        const id = parseInt(event.target.id);
+        const startButt = document.getElementById(`${id}-start`);
+        const stopButt = document.getElementById(`${id}-stop`);
+        if (startButt instanceof HTMLButtonElement && startButt) {          
+          startButt.disabled = false;
+        }
+        if (stopButt instanceof HTMLButtonElement && stopButt) {          
+          stopButt.disabled = true;
+        } 
+        stoppedCar = await stopEng(id);        
         cancelAnimationFrame(globalState[id].id);
         const el = document.getElementById(`${id}-car`);
-        if(el) el.style.left = '15px'
+        if(el) el.style.left = '15px'         
       }
 
       if (event.target.classList.contains("reset-button")) { 
@@ -161,25 +173,41 @@ export const pagination = () => {
     
     if(event.target instanceof Element){     
       if (event.target.classList.contains('nextWin-button')) {              
-        updateWinners(1,'wins', 'ASC');
+        updateWinners(1,sort, order);
         App.renderPage(PageIds.WinnersPage, true);}     
       }
     if(event.target instanceof Element){     
       if (event.target.classList.contains('prevWin-button')) {         
-        updateWinners(-1,'wins', 'ASC');
+        updateWinners(-1,sort, order);
         App.renderPage(PageIds.WinnersPage, true);}     
       }      
       
-      if(event.target instanceof Element){     
-        if (event.target.classList.contains('generate-cars-button')) { 
-          await generateHundreedCars();       
-          await updateCars(0);
-          App.renderPage(PageIds.GaragePage, true);}     
-        }    
+    if(event.target instanceof Element){     
+      if (event.target.classList.contains('generate-cars-button')) { 
+        await generateHundreedCars();       
+        await updateCars(0);
+        App.renderPage(PageIds.GaragePage, true);}     
+      }
+        
+    if(event.target instanceof Element){     
+      if (event.target.classList.contains('wins')) {
+        order = (order === 'ASC') ? 'DESC': 'ASC';
+        sort = 'wins';
+        await updateWinners(0,sort, order);
+        App.renderPage(PageIds.WinnersPage, true);}     
+      }
+
+    if(event.target instanceof Element){     
+      if (event.target.classList.contains('time')) {
+        order = (order === 'ASC') ? 'DESC': 'ASC';
+        sort = 'time';
+        await updateWinners(0,'time', order);
+        App.renderPage(PageIds.WinnersPage, true);}     
+      } 
     });      
   }
   
-  export const animationCar = (id:number,velo: number, dist: number) => {    
+  export const animationCar = (id:number,velo: number, dist: number, carName?: string) => {    
     const state: {id: number, time: number}= {id: 0, time: 0};
     let stepLeft = 15;
     const el = document.getElementById(`${id}-car`);
@@ -193,12 +221,11 @@ export const pagination = () => {
         if(el) el.style.left = stepLeft + "px";
         if (stepLeft < currDist)          
         state.id = window.requestAnimationFrame(move);
-        if(stepLeft >= currDist && message[0].textContent === ' '){
-          message[0].textContent = `n ${id} win ${(timeForDist/1000).toFixed(2)}`;
+        if(stepLeft >= currDist && message[0].textContent === ' ' && carName){
+          message[0].textContent = `${carName} went first with ${(timeForDist/1000).toFixed(2)} sec`;
           let time = +(timeForDist/1000).toFixed(2)
           saveWinner({id, time}).then(()=> updateWinners(0,'wins', 'ASC'));          
-        }
-        
+        }        
     }
     state.id = window.requestAnimationFrame(move); 
     

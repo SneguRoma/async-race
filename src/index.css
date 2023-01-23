@@ -24,8 +24,16 @@ body{
 
  .winner-message{
   position: absolute;
-  font-size: 40px;
-  top: 50vh;
-  left: 50vw;
+  font-size: 30px;
+  top: 20vh;
+  left: 45vw;
   z-index: 10;
+ }
+
+ .time:hover, .wins:hover{
+  cursor: pointer;
+ }
+
+ .finish{
+  margin-right: 15px;
  }
