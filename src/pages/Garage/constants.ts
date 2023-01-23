@@ -1,8 +1,4 @@
-import { getCars } from "../../API";
-import { winnersCount } from "../../API";
 import { IWinners } from "../../API/interfases";
-
-let search: string;
 
 export const inputBlock = (doWhat: string, disabled = false) => `
 <div>
@@ -32,7 +28,7 @@ export const buttonsBlockTwo = (doWhatFirst: string, doWhatSec: string) => `
 
 export const carImage2 = (color: string, id: number) => `
 <svg id="${id}-car" class="car" version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="60px" height="60px" viewBox="0 0 1280.000000 640.000000"
+ width="60px" height="30px" viewBox="0 0 1280.000000 640.000000"
  preserveAspectRatio="xMidYMid meet">
 <metadata>
 Created by potrace 1.15, written by Peter Selinger 2001-2017
@@ -128,7 +124,6 @@ l26 0 -7 123 c-10 179 -15 207 -36 207 -10 0 -63 -48 -119 -107z"/>
 </svg>
 `
 
-//const carImg2 = carImage2('#000000');
 
 export const lineContainer = (color: string, name: string, id: number) => `
 <div class="car-container" >

@@ -6,7 +6,7 @@ import { ICar, ICartartStop } from "../../API/interfases";
 import { generateHundreedCars } from "../../ui";
 
 const body: HTMLElement = document.body;
-let formData:FormData;
+export let formData:FormData;
 let updateFormData:FormData;
 let selectedCar: ICar;
 let removedCar: ICar;
@@ -17,8 +17,9 @@ let globalState:{
   time: number}[] = [];
 const message  =  document.getElementsByClassName('winner-message');
 let order = 'ASC';
-
 let sort = 'wins';
+export let nameOfCarInput = '';
+export let colorOfCarInput = '';
 
 export const createUpdate = () => {  
   body.addEventListener('submit', async (event: Event) => {
@@ -26,7 +27,9 @@ export const createUpdate = () => {
     const createInput = document.getElementById('create-form');
     if(createInput instanceof HTMLFormElement) { formData = new FormData(createInput);}
     const name = formData.get('name');
-    const color = formData.get('color');    
+    const color = formData.get('color');
+    if (name) nameOfCarInput =  name?.toString();
+    if (color) colorOfCarInput =  color?.toString();   
 
     if(event.target instanceof Element){      
       if (event.target.classList.contains('create-form')) {        
@@ -34,7 +37,7 @@ export const createUpdate = () => {
         name: (name) ? name?.toString() : '',
         color: (color) ? color?.toString() : '#000000'
       }).then(() => updateCars(0))
-        .then(() => {console.log('createInput', color)
+        .then(() => {
           App.renderPage(PageIds.GaragePage, true);})      
       }
     }
@@ -77,8 +80,7 @@ export const selectRemove = () => {
         const upDate = document.getElementById("update-button");        
         if (upDate instanceof HTMLButtonElement && upDate) {
           upDate.disabled = false;          
-        }        
-        console.log(event.target.id, selectedCar) 
+        }
       }
 
       if (event.target.classList.contains("remove-car-button")) {             
@@ -100,7 +102,8 @@ export const selectRemove = () => {
         if (stopButt instanceof HTMLButtonElement && stopButt) {          
           stopButt.disabled = false;
         }
-        startedCar = await startEng(id);        
+        startedCar = await startEng(id);
+        globalState[id] = animationCar(id,startedCar.velocity,startedCar.distance);        
         await drive(id).then(r => {          
          if (r.succsess === false ) {
           cancelAnimationFrame(globalState[id].id);          
@@ -141,8 +144,7 @@ export const selectRemove = () => {
       }
 
       if (event.target.classList.contains("reset-button")) { 
-        const carsForRace = await cars;
-        console.log('carsForRace',carsForRace.items)
+        const carsForRace = await cars;        
         carsForRace.items.forEach(async (r) => {
           stoppedCar = await stopEng(r.id);
           cancelAnimationFrame(globalState[r.id].id);
@@ -156,8 +158,7 @@ export const selectRemove = () => {
   });
 };  
 
-export const pagination = () => {  
-  //console.log('createInput',formData)
+export const pagination = () => {   
   body.addEventListener('click', async (event: Event) => {    
 
     if(event.target instanceof Element){     
@@ -215,8 +216,7 @@ export const pagination = () => {
     function move() {        
         let currDist = document.body.clientWidth-70;
         let timeForDist = dist / velo;
-        let pixForSec = currDist / timeForDist;
-        //console.log('timeForDist',timeForDist, 'currDist', currDist, 'pixForSec', pixForSec )
+        let pixForSec = currDist / timeForDist;        
         stepLeft += pixForSec*30;
         if(el) el.style.left = stepLeft + "px";
         if (stepLeft < currDist)          

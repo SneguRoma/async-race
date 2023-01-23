@@ -18,7 +18,7 @@ const buttons: IButton[]  = [
   }
 ];
 
-const nameOfApp = document.createElement('h1');
+const nameOfApp = document.createElement('h2');
 nameOfApp.textContent = 'Async Race';
 
 export class Header extends Component{
@@ -32,6 +32,7 @@ export class Header extends Component{
     winner.classList.add('winner-message')
     buttons.forEach(element => {
       const buttoHtml= document.createElement('button');
+      buttoHtml.classList.add('button');
       const buttonLink = document.createElement('a');
       buttonLink.href = `#${element.id}`;       
       buttonLink.textContent = element.buttonText;    

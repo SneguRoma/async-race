@@ -2,8 +2,8 @@ import { Garage } from "../Garage";
 import { Page } from "../../core/temlates/page";
 import { Winners } from "../Winners";
 import { Header } from "../../core/components/Header";
-import { getCars,createCar, cars, updateCars, drive, startEng, stopEng } from "../../API";
-import { createUpdate, selectRemove, pagination, animationCar } from "./functions";
+import { createUpdate, selectRemove, pagination } from "./functions";
+
 
 
 export const enum PageIds {
@@ -31,7 +31,7 @@ export class App {
     if(currentPageHtml) {
       currentPageHtml.remove();
     }
-    /* App.container.innerHTML = ''; */
+    
     if(currentPageHtml && rend === true) {
       currentPageHtml.remove();
     }
@@ -47,8 +47,7 @@ export class App {
       const pageHtml = page.render();
       pageHtml.id = App.defaultPageId;
       App.container.append(pageHtml);
-    }
-    
+    }    
   }
 
   private routeChange() {
@@ -56,9 +55,7 @@ export class App {
       const hash = window.location.hash.slice(1);
       App.renderPage(hash);
     });
-  }
-
-  
+  }  
 
   run(){
     App.container.append(this.header.render());    
@@ -67,16 +64,6 @@ export class App {
     this.routeChange();
     createUpdate();
     selectRemove();
-    pagination();
-    //animationCar();
-    
-    
-    
-   // startEng(2).then(r => console.log(r))
-   // drive(5).then((r) => console.log(r));
-  
-   
-       
-
+    pagination();    
   }
 }

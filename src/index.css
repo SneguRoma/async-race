@@ -2,6 +2,17 @@ body{
   background-color: rgb(237, 239, 223);
 }
 
+a{
+  text-decoration: none;
+}
+
+
+.button{
+  border-radius: 5px;
+  margin: 5px,2px;
+  
+}
+
 .car-road{
   display: flex;
   justify-content: space-between;
@@ -9,7 +20,7 @@ body{
 
 .line  {
   border-top: 1px dashed #000; /* Параметры линии */
-  height: 18px; /* Высота блока */
+  height: 5px; /* Высота блока */
   
  }
 
@@ -20,6 +31,11 @@ body{
 
  .header{
   position: relative;
+  margin-left: 20px;
+ }
+
+ #current-page{
+  margin-left: 20px;
  }
 
  .winner-message{
